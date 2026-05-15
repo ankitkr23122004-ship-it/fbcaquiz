@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Boost Quiz League - Final Alignment Fixed</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --neon-blue:#00eaff;
+    --neon-pink:#ff4dff;
+    --gold:#ffd700;
+    --correct:#28a745;
+    --wrong:#dc3545;
+    --selected:#ff9900;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    height:100vh; overflow:hidden; font-family:'Poppins',sans-serif;
+    background: linear-gradient(rgba(0,0,20,0.90),rgba(0,0,20,0.92)),
+    url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
+    background-size:cover; background-position:center; color:white;
+}
+
+/* --- SCREEN 1 ALIGNMENT --- */
+#screen-1{
+    display:grid; grid-template-columns:280px 1fr 280px; gap:15px;
+    padding:15px 15px 110px 15px; height:100vh;
+}
+.side-panel{
+    background:rgba(0,0,40,0.55); border:2px solid var(--neon-blue);
+    border-radius:22px; backdrop-filter:blur(10px);   box-shadow:0 0 18px rgba(0,234,255,0.45);padding:15px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    height: calc(100vh - 140px);
+}
+.right-panel{ border-color:var(--neon-pink);box-shadow:0 0 18px rgba(255,77,255,0.45); }
+
+.admin-section{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px; }
+.admin-card{ text-align:center; }
+.img-frame{ width:140px; height:140px; border-radius:50%; overflow:hidden; border:3px solid var(--neon-blue); box-shadow:0 0 20px var(--neon-blue); margin:auto; margin-bottom:8px; }
+.img-frame img{ width:100%; height:100%; object-fit:cover; }
+
+.name-tag{ font-family:'Orbitron'; font-size:16px; font-weight:bold; color:var(--neon-blue); }
+.role-tag{ font-size:12px; opacity:0.9; }
+.creator-badge{ font-size:10px; color:var(--gold); font-weight:bold; margin-top:4px; }
+
+/* Line and Tagline Fix */
+.creator-divider { width: 90%; height: 1px; background: rgba(0,234,255,0.3); margin: 5px auto; }
+.tagline-text { font-style:italic; font-size:14px; color:var(--neon-blue); text-align:center; line-height: 1.4; }
+
+.center-welcome{ display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height: calc(100vh - 140px); }
+.main-title{ font-family:'Orbitron'; font-size:78px; font-weight:900; background:linear-gradient(to bottom,#fff,var(--neon-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 15px var(--neon-blue); }
+.sub-title{ font-family:'Orbitron'; font-size:38px; color:var(--neon-blue); letter-spacing:4px; }
+
+/* Neon Start Button */
+.start-btn{
+    margin-top:30px; padding:16px 50px; border-radius:18px; border:2px solid var(--neon-blue);
+    background:rgba(0,0,40,0.65); color:var(--gold); font-family:'Orbitron'; font-size:32px;
+    cursor:pointer; box-shadow: 0 0 20px var(--neon-blue), inset 0 0 10px var(--neon-blue); 
+    text-shadow: 0 0 10px var(--gold); transition: 0.3s;
+}
+.start-btn:hover{ background: var(--neon-blue); color: black; box-shadow: 0 0 40px var(--neon-blue); }
+
+.rules-list{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; gap:20px; }
+.rule-item{ display:flex; align-items:center; gap:12px; font-size:14px; }
+.rule-bullet{ width:32px; height:32px; border-radius:50%; background:#005eff; display:flex; justify-content:center; align-items:center; font-weight:bold; }
+
+/* 2 Line Universal Footer Fix */
+.universal-footer{ 
+    position:absolute; bottom:10px; left:50%; transform:translateX(-50%); 
+    width:95%; display:flex; justify-content:space-around; padding:15px; 
+    border:2px solid var(--neon-blue); border-radius:18px; background:rgba(0,0,40,0.85); 
+}
+.footer-item { text-align: center; }
+
+/* --- SCREEN 2 --- */
+#screen-2{ display:none; flex-direction:column; height:100vh; width:100%; }
+.header-branding{ padding:10px 40px; border-bottom:3px solid var(--neon-blue); background:rgba(0,0,60,0.85); display:flex; justify-content:space-between; align-items:center; height:180px; }
+.q-admin-profile{ text-align:center; width:180px; }
+.img-ring{ width:100px; height:100px; border-radius:50%; overflow:hidden; border:3px solid var(--neon-blue); box-shadow:0 0 15px var(--neon-blue); margin:auto; margin-bottom:8px; }
+.img-ring img{ width:100%; height:100%; object-fit:cover; }
+.q-admin-name{ font-family:'Orbitron'; font-size:14px; color:var(--neon-blue); font-weight:bold; }
+
+.branding-center{ text-align:center; flex-grow:1; }
+.branding-center h2{ font-family:'Orbitron'; color:var(--neon-pink); font-size:16px; letter-spacing:4px; margin-bottom: 5px; }
+.branding-center h1{ font-family:'Orbitron'; font-size:32px; font-weight:900; color:white; }
+
+.timer-section{ width:100%; display:flex; justify-content:center; padding-top:15px; }
+.timer-container{ position:relative; width:85px; height:85px; display: flex; align-items: center; justify-content: center; }
+.timer-svg{ transform:rotate(-90deg); width:85px; height:85px; position: absolute; }
+#timer-text{ font-family:'Orbitron'; font-size:30px; color:var(--gold); z-index: 2; line-height: 1; }
+
+.quiz-container{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:10px; }
+.question-box{ width:95%; max-width:1100px; background:rgba(0,0,40,0.85); border:2px solid var(--neon-blue); border-radius:20px; padding:25px; font-size:32px; text-align:center; margin-bottom:25px; }
+.options-grid{ width:95%; max-width:1100px; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+.option{ background:rgba(255,255,255,0.05); border:2px solid rgba(0,234,255,0.4); border-radius:15px; padding:20px; font-size:24px; cursor:pointer; transition:0.2s; font-weight: bold; }
+.option.selected{ background:var(--selected)!important; color:black; }
+.option.correct{ background:var(--correct)!important; color: white; }
+.option.wrong{ background:var(--wrong)!important; color: white; }
+
+#explanation-box { width: 95%; max-width: 1100px; margin-top: 15px; padding: 15px; background: rgba(0, 234, 255, 0.12); border: 1px solid var(--neon-blue); border-radius: 12px; display: none; text-align: center; font-size: 18px; }
+
+.footer-controls{ padding:15px; background:rgba(0,0,10,0.95); border-top:3px solid var(--neon-blue); display:flex; justify-content:center; gap:20px; align-items:center; position:relative; }
+.nav-btn{ padding:10px 30px; border-radius:50px; border:none; font-family:'Orbitron'; font-weight:bold; cursor:pointer; }
+
+</style>
+</head>
+
+<body onclick="enableAudio()">
+
+<div id="screen-1">
+    <div class="side-panel">
+        <div style="font-family:'Orbitron'; text-align:center; color:var(--neon-blue); font-size:16px;">MANAGEMENT & HOST</div>
+        <div class="admin-section">
+            <div class="admin-card">
+                <div class="img-frame"><img src="E:\sir\lkj (1).jpg"></div>
+                <div class="name-tag">Sanjeev Kumar</div>
+                <div class="role-tag">Founder & Director of FBCA</div>
+            </div>
+            <div class="admin-card">
+                <div class="img-frame" style="border-color:gold;"><img src="D:\Docoments\Ankit.jpeg"></div>
+                <div class="name-tag" style="color:gold;">Ankit Kumar</div>
+                <div class="role-tag">B.M of T.E.P.L</div>
+                <div class="creator-badge">✨ QUIZ CREATOR ✨</div>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <div class="creator-divider"></div>
+            <div class="tagline-text">"Knowledge Today, Success Tomorrow"</div>
+        </div>
+    </div>
+
+    <div class="center-welcome">
+        <div class="main-title">FUTURE BOOST</div>
+        <div class="sub-title" style="color:var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink);">QUIZ LEAGUE</div>
+        <button class="start-btn" onclick="document.getElementById('excel-file').click()">START QUIZ</button>
+        <input type="file" id="excel-file" accept=".xlsx,.xls" hidden>
+    </div>
+
+    <div class="side-panel right-panel">
+        <div style="font-family:'Orbitron'; text-align:center; color:var(--neon-pink); font-size:24px;">QUIZ RULES</div>
+        <div class="rules-list">
+            <div class="rule-item"><div class="rule-bullet">1</div>5 questions per student</div>
+            <div class="rule-item"><div class="rule-bullet">2</div>Answer only A, B, C, D</div>
+            <div class="rule-item"><div class="rule-bullet">3</div>30 seconds per question</div>
+            <div class="rule-item"><div class="rule-bullet">4</div>Time over = next question</div>
+             <div class="rule-item"><div class="rule-bullet">5</div>No talking allowed</div>
+<div class="rule-item"><div class="rule-bullet">5</div>Focus & speed required</div>
+<div class="rule-item"><div class="rule-bullet">5</div>Follow all rules strictly</div>
+
+        </div>
+        <div style="text-align:center; font-style:italic; color:var(--neon-pink);">Play Fair, Win Honor</div>
+    </div>
+
+    <div class="universal-footer">
+        <div class="footer-item">
+            📅 EVERY SATURDAY<br>
+            <span style="color:var(--neon-blue); font-size:12px; font-family:'Orbitron';">LIVE CLASSROOM CHALLENGE</span>
+        </div>
+        <div class="footer-item">
+            🎯 FOCUS • ANSWER • WIN<br>
+            <span style="color:var(--neon-blue); font-size:12px; font-family:'Orbitron';">BE THE CHAMPION</span>
+        </div>
+    </div>
+</div>
+
+<div id="screen-2">
+    <header class="header-branding">
+        <div class="q-admin-profile">
+            <div class="img-ring"><img src="E:\sir\lkj (1).jpg"></div>
+            <div class="q-admin-name">Sanjeev Kumar</div>
+            <div style="font-size:10px; opacity:0.8;">Founder & Director</div>
+        </div>
+        <div class="branding-center">
+            <h2 style="color:var(--neon-pink);">FUTURE BOOST QUIZ LEAGUE</h2>
+            <h1>FUTURE BOOST COMPUTER ACADEMY</h1>
+            <div style="font-size:11px; opacity:0.8; margin-top:3px;">Also Known As Technobright Education Pvt. Ltd.</div>
+            <div style="font-size:10px; color:var(--gold); font-weight:bold; margin-top:8px;">✨ QUIZ CREATED BY ANKIT KUMAR ✨</div>
+        </div>
+        <div class="q-admin-profile">
+            <div class="img-ring" style="border-color:gold;"><img src="D:\Docoments\Ankit.jpeg"></div>
+            <div class="q-admin-name" style="color:gold;">Ankit Kumar</div>
+            <div style="font-size:10px; color:var(--gold); opacity:0.8;">Host & B.M of T.E.P.L</div>
+        </div>
+    </header>
+
+    <div class="timer-section">
+        <div class="timer-container" onclick="reloadTimer()">
+            <svg class="timer-svg">
+                <circle cx="42.5" cy="42.5" r="38" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="7"/>
+                <circle id="timer-bar" cx="42.5" cy="42.5" r="38" fill="none" stroke="gold" stroke-width="7" stroke-dasharray="238" stroke-dashoffset="0" stroke-linecap="round" style="transition: 1s linear;"/>
+            </svg>
+            <div id="timer-text">30</div>
+        </div>
+    </div>
+
+    <div class="quiz-container">
+        <div class="question-box" id="qText">Question Load Ho Raha Hai...</div>
+        <div class="options-grid" id="optContainer"></div>
+        <div id="explanation-box"></div>
+    </div>
+
+    <footer class="footer-controls">
+        <div style="position:absolute; left:40px; font-family:'Orbitron'; font-size:14px; color:var(--neon-blue);" id="score-status">Q: 0/0 | Score: 0</div>
+        <button class="nav-btn" style="background:#ff4dff;color:white;" onclick="prevQ()">← PREV</button>
+        <button class="nav-btn" style="background:gold;color:black;" onclick="checkAns()">LOCK</button>
+        <button id="pauseBtn" class="nav-btn" style="background:#ff9900;color:black;" onclick="pauseTimer()">PAUSE</button>
+        <button class="nav-btn" style="background:white;color:black;" onclick="reloadTimer()">RELOAD</button>
+        <button class="nav-btn" style="background:#00eaff;color:black;" onclick="nextQ()">NEXT →</button>
+        <button class="nav-btn" style="background:red;color:white;" onclick="location.reload()">HOME</button>
+    </footer>
+</div>
+
+<audio id="snd-timer" loop><source src="E:\TEPL\Quiz\Clock.mp3"></audio>
+<audio id="snd-correct"><source src="E:\TEPL\Quiz\Clapping.mp3"></audio>
+<audio id="snd-wrong"><source src="E:\TEPL\Quiz\_Kbc_Question_Sound_Effect_Notification_Ringtone.mp3"></audio>
+
+<script>
+let quizData = [], currentIdx = 0, timerVal = 30, timerInt = null, audioReady = false, score = 0;
+const circ = 2 * Math.PI * 38;
+let userAnswers = [], timerPaused = false;
+window.currentSelection = undefined;
+
+function enableAudio() { audioReady = true; }
+function playSound(id) { if(audioReady) { const s = document.getElementById(id); if(s){ s.currentTime = 0; s.play().catch(()=>{}); } } }
+function stopSound(id) { const s = document.getElementById(id); if(s){ s.pause(); s.currentTime = 0; } }
+
+document.getElementById('excel-file').addEventListener('change', function(e){
+    const file = e.target.files[0]; if(!file) return;
+    enableAudio();
+    const reader = new FileReader();
+    reader.onload = function(event){
+        try {
+            const workbook = XLSX.read(new Uint8Array(event.target.result), {type:'array'});
+            const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header:1});
+            quizData = rows.slice(1).filter(r => r[1] && r[6]).map(r => ({
+                q:r[1], o:[r[2],r[3],r[4],r[5]],
+                a:{"A":0,"B":1,"C":2,"D":3}[String(r[6]).toUpperCase()], exp:r[7] || ""
+            }));
+            if(quizData.length > 0) {
+                userAnswers = new Array(quizData.length).fill(null);
+                document.getElementById('screen-1').style.display='none';
+                document.getElementById('screen-2').style.display='flex';
+                currentIdx = 0; score = 0; loadQuestion();
+            }
+        } catch(e) { alert("Excel file load nahi hui!"); }
+    };
+    reader.readAsArrayBuffer(file);
+});
+
+function updateTimer(){
+    document.getElementById('timer-text').innerText = timerVal;
+    const bar = document.getElementById('timer-bar');
+    if(bar) bar.style.strokeDashoffset = circ - (timerVal/30)*circ;
+}
+
+function startTimer(){
+    clearInterval(timerInt); timerPaused = false;
+    document.getElementById('pauseBtn').innerText='PAUSE';
+    playSound('snd-timer');
+    timerInt = setInterval(()=>{
+        if(timerPaused) return;
+        timerVal--; if(timerVal < 0) timerVal = 0;
+        updateTimer();
+        if(timerVal <= 0){ clearInterval(timerInt); stopSound('snd-timer'); }
+    },1000);
+}
+
+function pauseTimer(){
+    if(timerVal <= 0 || userAnswers[currentIdx]) return;
+    timerPaused = !timerPaused;
+    const btn = document.getElementById('pauseBtn');
+    if(timerPaused){ btn.innerText='RESUME'; stopSound('snd-timer'); }
+    else { btn.innerText='PAUSE'; playSound('snd-timer'); }
+}
+
+function reloadTimer(){
+    if(userAnswers[currentIdx]) return;
+    timerVal = 30; updateTimer(); startTimer();
+}
+
+function loadQuestion(){
+    clearInterval(timerInt); stopSound('snd-timer');
+     stopSound('snd-correct'); stopSound('snd-wrong');
+    window.currentSelection = undefined;
+    timerVal = 30; updateTimer();
+    document.getElementById('score-status').innerText = `Q: ${currentIdx+1}/${quizData.length} | Score: ${score}`;
+    const q = quizData[currentIdx];
+    document.getElementById('qText').innerText = q.q;
+    const container = document.getElementById('optContainer');
+    container.innerHTML=''; document.getElementById('explanation-box').style.display='none';
+    ["A","B","C","D"].forEach((l,i)=>{
+        const div = document.createElement('div'); div.className='option';
+        div.innerHTML = `<span style="color:var(--neon-blue); margin-right:10px;">${l}:</span> ${q.o[i]}`;
+        const saved = userAnswers[currentIdx];
+        if(saved){
+            if(saved.selected === i) div.classList.add(saved.correct ? 'correct' : 'wrong');
+            if(i === q.a) div.classList.add('correct');
+            div.style.pointerEvents='none';
+        } else {
+            div.onclick = ()=>{
+                if(timerVal <= 0) return;
+                document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+                div.classList.add('selected'); window.currentSelection = i;
+            };
+        }
+        container.appendChild(div);
+    });
+    if(q.exp && userAnswers[currentIdx]){
+        const eb = document.getElementById('explanation-box');
+        eb.innerHTML = `<strong>Explanation:</strong> ${q.exp}`; eb.style.display='block';
+    }
+    if(!userAnswers[currentIdx]) setTimeout(startTimer, 600);
+}
+
+function checkAns(){
+    if(userAnswers[currentIdx]) return;
+    if(window.currentSelection === undefined) return;
+    clearInterval(timerInt); stopSound('snd-timer');
+    const q = quizData[currentIdx], opts = document.querySelectorAll('.option');
+    let isCorrect = (window.currentSelection === q.a);
+    if(isCorrect) { opts[window.currentSelection].classList.add('correct'); playSound('snd-correct'); score++; }
+    else { opts[window.currentSelection].classList.add('wrong'); opts[q.a].classList.add('correct'); playSound('snd-wrong'); }
+    userAnswers[currentIdx] = { selected: window.currentSelection, correct: isCorrect };
+    if(q.exp){ const eb = document.getElementById('explanation-box'); eb.innerHTML = `<strong>Explanation:</strong> ${q.exp}`; eb.style.display='block'; }
+    document.getElementById('score-status').innerText = `Q: ${currentIdx+1}/${quizData.length} | Score: ${score}`;
+}
+
+function nextQ(){ if(currentIdx < quizData.length-1){ currentIdx++; loadQuestion(); } }
+function prevQ(){ if(currentIdx > 0){ currentIdx--; loadQuestion(); } }
+
+window.addEventListener('keydown',(e)=>{
+    const k = e.key.toUpperCase();
+    if(document.getElementById('screen-2').style.display==='flex'){
+        if(["A","B","C","D"].includes(k) && !userAnswers[currentIdx]){
+            window.currentSelection = {"A":0,"B":1,"C":2,"D":3}[k];
+            document.querySelectorAll('.option').forEach((o,idx)=>o.classList.toggle('selected', idx===window.currentSelection));
+        }
+        if(e.key==="Enter") checkAns();
+        if(e.key==="ArrowRight") nextQ();
+        if(e.key==="ArrowLeft") prevQ();
+        if(k==="R") reloadTimer();
+        if(k==="P") pauseTimer();
+    }
+});
+</script>
+</body>
+</html>
