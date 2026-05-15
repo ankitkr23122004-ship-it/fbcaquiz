@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Future Boost Quiz League - Final Alignment Fixed</title>
+<title>Future Boost Quiz League - Final Master Edition</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -15,105 +15,271 @@
     --correct:#28a745;
     --wrong:#dc3545;
     --selected:#ff9900;
+    --dark-blue:#000028;
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
-body{
-    height:100vh; overflow:hidden; font-family:'Poppins',sans-serif;
-    background: linear-gradient(rgba(0,0,20,0.90),rgba(0,0,20,0.92)),
+html, body{
+    width:100%;
+    min-height:100vh;
+    overflow-x:hidden;
+    overflow-y: auto;
+    background: linear-gradient(rgba(0,0,20,0.90), rgba(0,0,20,0.92)),
     url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
-    background-size:cover; background-position:center; color:white;
+    background-size:cover; background-position:center; background-attachment: fixed; color:white;
+    font-family:'Poppins',sans-serif;
 }
 
-/* --- SCREEN 1 ALIGNMENT --- */
+/* --- SCREEN 1 LAPTOP ALIGNMENT --- */
 #screen-1{
-    display:grid; grid-template-columns:280px 1fr 280px; gap:15px;
-    padding:15px 15px 110px 15px; height:100vh;
+    display:grid; 
+    grid-template-columns:280px 1fr 280px; 
+    gap:20px;
+    padding:20px; 
+    min-height:100vh;
+    align-items: center;
+    position: relative;
 }
 .side-panel{
     background:rgba(0,0,40,0.55); border:2px solid var(--neon-blue);
-    border-radius:22px; backdrop-filter:blur(10px);   box-shadow:0 0 18px rgba(0,234,255,0.45);padding:15px;
+    border-radius:22px; backdrop-filter:blur(10px); box-shadow:0 0 18px rgba(0,234,255,0.45);padding:20px;
     display:flex; flex-direction:column; justify-content:space-between;
-    height: calc(100vh - 140px);
+    height: 75vh;
 }
 .right-panel{ border-color:var(--neon-pink);box-shadow:0 0 18px rgba(255,77,255,0.45); }
 
+.panel-left-management { order: 1; }
+.center-welcome{ display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height: 75vh; order: 2; }
+.panel-right-rules { order: 3; }
+
 .admin-section{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:20px; }
 .admin-card{ text-align:center; }
-.img-frame{ width:140px; height:140px; border-radius:50%; overflow:hidden; border:3px solid var(--neon-blue); box-shadow:0 0 20px var(--neon-blue); margin:auto; margin-bottom:8px; }
+.img-frame{ width:120px; height:120px; border-radius:50%; overflow:hidden; border:3px solid var(--neon-blue); box-shadow:0 0 20px var(--neon-blue); margin:auto; margin-bottom:8px; }
 .img-frame img{ width:100%; height:100%; object-fit:cover; }
 
 .name-tag{ font-family:'Orbitron'; font-size:16px; font-weight:bold; color:var(--neon-blue); }
 .role-tag{ font-size:12px; opacity:0.9; }
 .creator-badge{ font-size:10px; color:var(--gold); font-weight:bold; margin-top:4px; }
 
-/* Line and Tagline Fix */
 .creator-divider { width: 90%; height: 1px; background: rgba(0,234,255,0.3); margin: 5px auto; }
 .tagline-text { font-style:italic; font-size:14px; color:var(--neon-blue); text-align:center; line-height: 1.4; }
 
-.center-welcome{ display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height: calc(100vh - 140px); }
-.main-title{ font-family:'Orbitron'; font-size:78px; font-weight:900; background:linear-gradient(to bottom,#fff,var(--neon-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 15px var(--neon-blue); }
-.sub-title{ font-family:'Orbitron'; font-size:38px; color:var(--neon-blue); letter-spacing:4px; }
+.main-title{ font-family:'Orbitron'; font-size:68px; font-weight:900; background:linear-gradient(to bottom,#fff,var(--neon-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 15px var(--neon-blue); }
+.sub-title{ font-family:'Orbitron'; font-size:32px; color:var(--neon-blue); letter-spacing:4px; }
 
-/* Neon Start Button */
 .start-btn{
     margin-top:30px; padding:16px 50px; border-radius:18px; border:2px solid var(--neon-blue);
-    background:rgba(0,0,40,0.65); color:var(--gold); font-family:'Orbitron'; font-size:32px;
+    background:rgba(0,0,40,0.65); color:var(--gold); font-family:'Orbitron'; font-size:28px;
     cursor:pointer; box-shadow: 0 0 20px var(--neon-blue), inset 0 0 10px var(--neon-blue); 
     text-shadow: 0 0 10px var(--gold); transition: 0.3s;
 }
 .start-btn:hover{ background: var(--neon-blue); color: black; box-shadow: 0 0 40px var(--neon-blue); }
 
-.rules-list{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; gap:20px; }
+.rules-list{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; gap:15px; }
 .rule-item{ display:flex; align-items:center; gap:12px; font-size:14px; }
 .rule-bullet{ width:32px; height:32px; border-radius:50%; background:#005eff; display:flex; justify-content:center; align-items:center; font-weight:bold; }
 
-/* 2 Line Universal Footer Fix */
 .universal-footer{ 
-    position:absolute; bottom:10px; left:50%; transform:translateX(-50%); 
-    width:95%; display:flex; justify-content:space-around; padding:15px; 
-    border:2px solid var(--neon-blue); border-radius:18px; background:rgba(0,0,40,0.85); 
+    grid-column: 1 / -1;
+    width:100%; display:flex; justify-content:space-around; padding:18px; 
+    border: 2px solid rgba(0,234,255,0.4); border-radius:18px; background:rgba(0,0,30,0.9); 
+    align-self: end;
+    margin-top: 30px;
+    order: 4;
 }
-.footer-item { text-align: center; }
+.footer-item { text-align: center; font-size: 14px; }
 
-/* --- SCREEN 2 --- */
-#screen-2{ display:none; flex-direction:column; height:100vh; width:100%; }
-.header-branding{ padding:10px 40px; border-bottom:3px solid var(--neon-blue); background:rgba(0,0,60,0.85); display:flex; justify-content:space-between; align-items:center; height:180px; }
-.q-admin-profile{ text-align:center; width:180px; }
-.img-ring{ width:100px; height:100px; border-radius:50%; overflow:hidden; border:3px solid var(--neon-blue); box-shadow:0 0 15px var(--neon-blue); margin:auto; margin-bottom:8px; }
-.img-ring img{ width:100%; height:100%; object-fit:cover; }
-.q-admin-name{ font-family:'Orbitron'; font-size:14px; color:var(--neon-blue); font-weight:bold; }
+/* --- SCREEN 2 PRESTIGE LAYOUT --- */
+#screen-2{ display:none; flex-direction:column; min-height:100vh; width:100%; }
 
-.branding-center{ text-align:center; flex-grow:1; }
-.branding-center h2{ font-family:'Orbitron'; color:var(--neon-pink); font-size:16px; letter-spacing:4px; margin-bottom: 5px; }
-.branding-center h1{ font-family:'Orbitron'; font-size:32px; font-weight:900; color:white; }
+.header-branding { 
+    padding: 15px 40px; 
+    border-bottom: 3px solid var(--neon-blue); 
+    background: rgba(0,0,40,0.85); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 20px;
+}
+.branding-center { text-align: center; flex-grow: 1; }
+.branding-center h2 { font-family: 'Orbitron'; color: var(--neon-pink); font-size: 16px; letter-spacing: 4px; margin-bottom: 5px; }
+.branding-center h1 { font-family: 'Orbitron'; font-size: 32px; font-weight: 900; color: white; }
 
-.timer-section{ width:100%; display:flex; justify-content:center; padding-top:15px; }
+.q-admin-profile { text-align: center; width: 150px; flex-shrink: 0; }
+.img-ring { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; border: 3px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); margin: auto; margin-bottom: 6px; }
+.img-ring img { width: 100%; height: 100%; object-fit: cover; }
+.q-admin-name { font-family: 'Orbitron'; font-size: 14px; color: var(--neon-blue); font-weight: bold; }
+
+.profiles-row-wrapper { display: contents; } 
+
+.timer-section{ width:100%; display:flex; justify-content:center; padding-top:20px; }
 .timer-container{ position:relative; width:85px; height:85px; display: flex; align-items: center; justify-content: center; }
 .timer-svg{ transform:rotate(-90deg); width:85px; height:85px; position: absolute; }
 #timer-text{ font-family:'Orbitron'; font-size:30px; color:var(--gold); z-index: 2; line-height: 1; }
 
-.quiz-container{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:10px; }
-.question-box{ width:95%; max-width:1100px; background:rgba(0,0,40,0.85); border:2px solid var(--neon-blue); border-radius:20px; padding:25px; font-size:32px; text-align:center; margin-bottom:25px; }
+.quiz-container{ flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:30px 15px; }
+.question-box{ width:95%; max-width:1100px; background:rgba(0,0,40,0.85); border:2px solid var(--neon-blue); border-radius:20px; padding:25px; font-size:32px; text-align:center; margin-bottom:25px; box-shadow: 0 0 20px rgba(0,234,255,0.15); }
 .options-grid{ width:95%; max-width:1100px; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
-.option{ background:rgba(255,255,255,0.05); border:2px solid rgba(0,234,255,0.4); border-radius:15px; padding:20px; font-size:24px; cursor:pointer; transition:0.2s; font-weight: bold; }
+.option{ background:rgba(255,255,255,0.05); border:2px solid rgba(0,234,255,0.3); border-radius:15px; padding:20px; font-size:24px; cursor:pointer; transition:0.2s; font-weight: bold; }
 .option.selected{ background:var(--selected)!important; color:black; }
 .option.correct{ background:var(--correct)!important; color: white; }
 .option.wrong{ background:var(--wrong)!important; color: white; }
 
 #explanation-box { width: 95%; max-width: 1100px; margin-top: 15px; padding: 15px; background: rgba(0, 234, 255, 0.12); border: 1px solid var(--neon-blue); border-radius: 12px; display: none; text-align: center; font-size: 18px; }
 
-.footer-controls{ padding:15px; background:rgba(0,0,10,0.95); border-top:3px solid var(--neon-blue); display:flex; justify-content:center; gap:20px; align-items:center; position:relative; }
-.nav-btn{ padding:10px 30px; border-radius:50px; border:none; font-family:'Orbitron'; font-weight:bold; cursor:pointer; }
+/* 💎 CONTROLS CONSOLE */
+.footer-controls{ 
+    padding: 20px 40px; 
+    background: rgba(0,0,10,0.98); 
+    border-top: 2px solid rgba(0, 234, 255, 0.3); 
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center; 
+    gap: 15px; 
+}
+#score-status {
+    margin-right: auto;
+    font-family: 'Orbitron';
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--neon-blue);
+    background: rgba(0, 234, 255, 0.08);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 234, 255, 0.2);
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+.nav-btn{ 
+    padding: 12px 24px; 
+    border-radius: 8px; 
+    border: 1px solid rgba(255, 255, 255, 0.4); 
+    background: transparent;
+    color: #ffffff; 
+    font-family: 'Orbitron'; 
+    font-weight: 700; 
+    font-size: 13px;
+    cursor: pointer; 
+    transition: all 0.2s ease;
+    min-width: 115px;
+    text-align: center;
+}
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    transform: translateY(-1px);
+}
+.nav-btn:active { transform: translateY(0); }
 
+/* Highlight Buttons */
+.btn-lock { background: var(--gold) !important; color: black !important; border: none !important; }
+.btn-lock:hover { box-shadow: 0 0 15px var(--gold); }
+.btn-home { background: rgba(220, 53, 69, 0.15) !important; color: #ff4d4d !important; border-color: var(--wrong) !important; }
+.btn-home:hover { background: var(--wrong) !important; color: white !important; }
+
+/* 📱 RESPONSIVE MEDIA QUERIES */
+@media (max-width: 900px) {
+    #screen-1 {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 30px;
+        padding: 20px 15px 40px 15px;
+    }
+    
+    .center-welcome {
+        order: 1; 
+        height: auto;
+        padding: 30px 0 10px 0;
+    }
+    .panel-left-management {
+        order: 2; 
+        height: auto;
+        width: 100%;
+    }
+    .panel-right-rules {
+        order: 3; 
+        height: auto;
+        width: 100%;
+    }
+    .universal-footer {
+        flex-direction: column;
+        gap: 15px;
+        order: 4;
+        margin-top: 10px;
+    }
+    
+    .main-title { font-size: 44px; }
+    .sub-title { font-size: 22px; }
+    .start-btn { font-size: 24px; padding: 12px 45px; }
+
+    .header-branding {
+        flex-direction: column;
+        padding: 20px 15px;
+        gap: 20px;
+        text-align: center;
+    }
+    .branding-center { order: -1; }
+    .branding-center h1 { font-size: 22px; }
+    .branding-center h2 { font-size: 14px; }
+    
+    .profiles-row-wrapper {
+        display: flex; 
+        justify-content: center;
+        gap: 25px;
+        width: 100%;
+    }
+    .q-admin-profile { width: 125px; }
+    
+    .quiz-container {
+        padding: 30px 15px 50px 15px; 
+    }
+    .question-box { font-size: 20px; padding: 15px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .option { font-size: 16px; padding: 15px; }
+    
+    .footer-controls { 
+        padding: 20px 15px; 
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+    #score-status {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+    .nav-btn {
+        font-size: 12px;
+        padding: 12px 5px;
+        flex: 1 1 calc(50% - 10px);
+        min-width: 110px;
+    }
+}
+
+/* 🔄 LANDSCAPE MODE EXTRA PROTECTION */
+@media (max-height: 600px) {
+    .side-panel, .center-welcome, #screen-1 { 
+        height: auto !important; 
+    }
+    #screen-1, .quiz-container {
+        padding-top: 30px !important;
+        padding-bottom: 60px !important; 
+    }
+    .header-branding {
+        padding: 20px 15px !important;
+    }
+}
 </style>
 </head>
 
 <body onclick="enableAudio()">
 
+<!-- SCREEN 1 -->
 <div id="screen-1">
-    <div class="side-panel">
+    
+    <!-- Management (Left on PC / Center on Mobile) -->
+    <div class="side-panel panel-left-management">
         <div style="font-family:'Orbitron'; text-align:center; color:var(--neon-blue); font-size:16px;">MANAGEMENT & HOST</div>
         <div class="admin-section">
             <div class="admin-card">
@@ -134,6 +300,7 @@ body{
         </div>
     </div>
 
+    <!-- Heading Title Content (Center on PC / Front-Top on Mobile) -->
     <div class="center-welcome">
         <div class="main-title">FUTURE BOOST</div>
         <div class="sub-title" style="color:var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink);">QUIZ LEAGUE</div>
@@ -141,21 +308,22 @@ body{
         <input type="file" id="excel-file" accept=".xlsx,.xls" hidden>
     </div>
 
-    <div class="side-panel right-panel">
+    <!-- Rules (Right on PC / Bottom on Mobile) -->
+    <div class="side-panel right-panel panel-right-rules">
         <div style="font-family:'Orbitron'; text-align:center; color:var(--neon-pink); font-size:24px;">QUIZ RULES</div>
         <div class="rules-list">
             <div class="rule-item"><div class="rule-bullet">1</div>5 questions per student</div>
             <div class="rule-item"><div class="rule-bullet">2</div>Answer only A, B, C, D</div>
             <div class="rule-item"><div class="rule-bullet">3</div>30 seconds per question</div>
             <div class="rule-item"><div class="rule-bullet">4</div>Time over = next question</div>
-             <div class="rule-item"><div class="rule-bullet">5</div>No talking allowed</div>
-<div class="rule-item"><div class="rule-bullet">5</div>Focus & speed required</div>
-<div class="rule-item"><div class="rule-bullet">5</div>Follow all rules strictly</div>
-
+            <div class="rule-item"><div class="rule-bullet">5</div>No talking allowed</div>
+            <div class="rule-item"><div class="rule-bullet">6</div>Focus & speed required</div>
+            <div class="rule-item"><div class="rule-bullet">7</div>Follow all rules strictly</div>
         </div>
         <div style="text-align:center; font-style:italic; color:var(--neon-pink);">Play Fair, Win Honor</div>
     </div>
 
+    <!-- Layout Fixed Footer -->
     <div class="universal-footer">
         <div class="footer-item">
             📅 EVERY SATURDAY<br>
@@ -168,23 +336,30 @@ body{
     </div>
 </div>
 
+<!-- SCREEN 2 -->
 <div id="screen-2">
     <header class="header-branding">
-        <div class="q-admin-profile">
-            <div class="img-ring"><img src="Sir.jpg"></div>
-            <div class="q-admin-name">Sanjeev Kumar</div>
-            <div style="font-size:10px; opacity:0.8;">Founder & Director</div>
+        <div class="profiles-row-wrapper">
+            <div class="q-admin-profile">
+                <div class="img-ring"><img src="Sir.jpg"></div>
+                <div class="q-admin-name">Sanjeev Kumar</div>
+                <div style="font-size:10px; opacity:0.8;">Founder & Director</div>
+            </div>
         </div>
+
         <div class="branding-center">
             <h2 style="color:var(--neon-pink);">FUTURE BOOST QUIZ LEAGUE</h2>
             <h1>FUTURE BOOST COMPUTER ACADEMY</h1>
             <div style="font-size:11px; opacity:0.8; margin-top:3px;">Also Known As Technobright Education Pvt. Ltd.</div>
             <div style="font-size:10px; color:var(--gold); font-weight:bold; margin-top:8px;">✨ QUIZ CREATED BY ANKIT KUMAR ✨</div>
         </div>
-        <div class="q-admin-profile">
-            <div class="img-ring" style="border-color:gold;"><img src="Ankit.jpeg"></div>
-            <div class="q-admin-name" style="color:gold;">Ankit Kumar</div>
-            <div style="font-size:10px; color:var(--gold); opacity:0.8;">Host & B.M of T.E.P.L</div>
+        
+        <div class="profiles-row-wrapper">
+            <div class="q-admin-profile">
+                <div class="img-ring" style="border-color:gold;"><img src="Ankit.jpeg"></div>
+                <div class="q-admin-name" style="color:gold;">Ankit Kumar</div>
+                <div style="font-size:10px; color:var(--gold); opacity:0.8;">Host & B.M of T.E.P.L</div>
+            </div>
         </div>
     </header>
 
@@ -204,14 +379,15 @@ body{
         <div id="explanation-box"></div>
     </div>
 
+    <!-- Symmetrical Buttons Console -->
     <footer class="footer-controls">
-        <div style="position:absolute; left:40px; font-family:'Orbitron'; font-size:14px; color:var(--neon-blue);" id="score-status">Q: 0/0 | Score: 0</div>
-        <button class="nav-btn" style="background:#ff4dff;color:white;" onclick="prevQ()">← PREV</button>
-        <button class="nav-btn" style="background:gold;color:black;" onclick="checkAns()">LOCK</button>
-        <button id="pauseBtn" class="nav-btn" style="background:#ff9900;color:black;" onclick="pauseTimer()">PAUSE</button>
-        <button class="nav-btn" style="background:white;color:black;" onclick="reloadTimer()">RELOAD</button>
-        <button class="nav-btn" style="background:#00eaff;color:black;" onclick="nextQ()">NEXT →</button>
-        <button class="nav-btn" style="background:red;color:white;" onclick="location.reload()">HOME</button>
+        <div id="score-status">Q: 0/0 | Score: 0</div>
+        <button class="nav-btn" onclick="prevQ()">← PREV</button>
+        <button class="nav-btn btn-lock" onclick="checkAns()">LOCK</button>
+        <button id="pauseBtn" class="nav-btn" onclick="pauseTimer()">PAUSE</button>
+        <button class="nav-btn" onclick="reloadTimer()">RELOAD</button>
+        <button class="nav-btn" onclick="nextQ()">NEXT →</button>
+        <button class="nav-btn btn-home" onclick="location.reload()">HOME</button>
     </footer>
 </div>
 
@@ -257,7 +433,6 @@ function updateTimer(){
     const bar = document.getElementById('timer-bar');
     if(bar) bar.style.strokeDashoffset = circ - (timerVal/30)*circ;
 }
-
 function startTimer(){
     clearInterval(timerInt); timerPaused = false;
     document.getElementById('pauseBtn').innerText='PAUSE';
@@ -269,7 +444,6 @@ function startTimer(){
         if(timerVal <= 0){ clearInterval(timerInt); stopSound('snd-timer'); }
     },1000);
 }
-
 function pauseTimer(){
     if(timerVal <= 0 || userAnswers[currentIdx]) return;
     timerPaused = !timerPaused;
@@ -277,17 +451,11 @@ function pauseTimer(){
     if(timerPaused){ btn.innerText='RESUME'; stopSound('snd-timer'); }
     else { btn.innerText='PAUSE'; playSound('snd-timer'); }
 }
-
-function reloadTimer(){
-    if(userAnswers[currentIdx]) return;
-    timerVal = 30; updateTimer(); startTimer();
-}
+function reloadTimer(){ if(userAnswers[currentIdx]) return; timerVal = 30; updateTimer(); startTimer(); }
 
 function loadQuestion(){
-    clearInterval(timerInt); stopSound('snd-timer');
-     stopSound('snd-correct'); stopSound('snd-wrong');
-    window.currentSelection = undefined;
-    timerVal = 30; updateTimer();
+    clearInterval(timerInt); stopSound('snd-timer'); stopSound('snd-correct'); stopSound('snd-wrong');
+    window.currentSelection = undefined; timerVal = 30; updateTimer();
     document.getElementById('score-status').innerText = `Q: ${currentIdx+1}/${quizData.length} | Score: ${score}`;
     const q = quizData[currentIdx];
     document.getElementById('qText').innerText = q.q;
@@ -330,7 +498,24 @@ function checkAns(){
     document.getElementById('score-status').innerText = `Q: ${currentIdx+1}/${quizData.length} | Score: ${score}`;
 }
 
-function nextQ(){ if(currentIdx < quizData.length-1){ currentIdx++; loadQuestion(); } }
+/* 🏁 DESIGNED LOGIC: JAISAY HI QUESTIONS KHATAM HO JAYEIN MESSAGE POPUP AAYE */
+function nextQ(){ 
+    if(currentIdx < quizData.length-1){ 
+        currentIdx++; 
+        loadQuestion(); 
+    } else {
+        clearInterval(timerInt);
+        stopSound('snd-timer');
+        alert(`🎉 🎉 Quiz Completed Successfully!!\n
+🏆 Great Effort!
+You have successfully completed the Future Boost Quiz League.
+
+📊 Your Performance Matters More Than Score
+Keep Learning • Keep Improving • Keep Winning
+
+🚀 Thank You for Participating!\nTotal Score: ${score} / ${quizData.length}`);
+    } 
+}
 function prevQ(){ if(currentIdx > 0){ currentIdx--; loadQuestion(); } }
 
 window.addEventListener('keydown',(e)=>{
